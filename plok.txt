@@ -47,3 +47,16 @@ dbms_output.put_line(' facto ' || ans);
 
 end;
 /
+----------------------------------------asserion----------------------------------
+CREATE ASSERTION salary_threshold
+CHECK (
+    SELECT AVG(salary)
+    FROM employees
+    WHERE department_id = 20
+) > 50000;
+---------------------------------------view----------------------------------------
+CREATE VIEW employee_view AS
+SELECT emp_id, emp_name, salary
+FROM employees
+WHERE department = 'IT';
+
