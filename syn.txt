@@ -1,0 +1,88 @@
+SQL-Create Table
+CREATE TABLE student(
+   ID INT NOT NULL,
+   Name varchar(25),
+   Phone varchar(12),
+   Class INT
+);
+
+SQL-Delete Table:
+DROP TABLE student;
+
+ALTER TABLE STUDENT ADD(ADDRESS VARCHAR2(20));  
+ALTER TABLE STUDENT MODIFY (ADDRESS VARCHAR2(20)); 
+
+INSERT INTO STUDENT (Name, Subject) VALUES ("Scaler", "DSA");  
+ 
+UPDATE STUDENT   
+SET User_Name = 'Interviewbit'    
+WHERE Student_Id = '2'  
+
+DELETE FROM STUDENT 
+WHERE Name = "Scaler";  
+
+Data Control Language(DCL)
+GRANT SELECT, UPDATE ON TABLE_1 TO USER_1, USER_2;  
+REVOKE SELECT, UPDATE ON TABLE_1 FROM USER_1, USER_2;  
+
+Transaction Control Language:
+DELETE FROM STUDENTS
+WHERE AGE = 16;  
+COMMIT;  
+
+ROLLBACK
+DELETE FROM STUDENTS 
+WHERE AGE = 16;  
+ROLLBACK;  
+
+SAVEPOINT
+SAVEPOINT SAVED;
+DELETE FROM STUDENTS 
+WHERE AGE = 16;  
+ROLLBACK TO SAVED;
+
+
+update
+UPDATE customers
+SET phone = '+1234-9876'
+WHEREID = 2;
+
+delete
+DELETE FROM student
+WHERE class = 11;
+
+
+Primary Key
+CREATE TABLE Student (
+   ID int NOT NULL,
+   LastName varchar(255) NOT NULL,
+   FirstName varchar(255),
+   Class int,
+   PRIMARY KEY (ID)
+);
+
+Foreign
+CREATE TABLE Orders (
+   OrderID int NOT NULL,
+   OrderNumber int NOT NULL,
+   PersonID int,
+   PRIMARY KEY (OrderID),
+   FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+);
+
+Inner join
+SELECT orders.order_id, products.product_name,customers.customer_name,products.price
+FROM orders
+INNER JOIN products ON products.product_id = order.product_id
+INNER JOIN customers on customers.customer_id = order.customer_id;
+
+trigger
+CREATE TRIGGER trigger1
+before INSERT
+ON Student
+FOR EACH ROW
+SET new.total = (new.marks/ 10) * 100;
+
+procedure
+CREATE PROCEDURE SelectAllCustomers AS SELECT * FROM Customers;
+GO;
