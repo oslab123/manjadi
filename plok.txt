@@ -1,3 +1,10 @@
+
+Raja-6QHbajxOh3w2qxlKSODPT3BlbkFJVOFUx5HG7fb3W4Send
+
+Raja=sk
+end=TtLbk
+
+
 -----------------trigger-----------------------------------------
 CREATE OR REPLACE TRIGGER example_trigger
 BEFORE INSERT ON your_table
