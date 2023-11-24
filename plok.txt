@@ -1,0 +1,42 @@
+-----------------trigger-----------------------------------------
+CREATE OR REPLACE TRIGGER example_trigger
+BEFORE INSERT ON your_table
+FOR EACH ROW
+BEGIN
+  -- Your trigger logic here
+  DBMS_OUTPUT.PUT_LINE('Trigger activated for an insert on your_table');
+END;
+/
+
+
+
+
+  ---------------------------------------factorial------------------------------------
+declare 
+a number(2):=5;
+ans number(3);
+
+function facto(x in number) return number
+is 
+ f number;
+
+begin
+	
+	if(x=0) then
+    f:=1;
+	else
+	f:=x*facto(x-1);
+	end if;
+
+return f;
+
+end;
+
+begin
+
+ans:=facto(a);
+
+dbms_output.put_line(' facto ' || ans); 
+
+end;
+/
