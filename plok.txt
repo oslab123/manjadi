@@ -60,3 +60,24 @@ SELECT emp_id, emp_name, salary
 FROM employees
 WHERE department = 'IT';
 
+
+
+CREATE OR REPLACE PROCEDURE DisplayEmployeeInfo (p_max_salary NUMBER)
+IS
+   CURSOR emp_cursor IS
+      SELECT employee_name, salary
+      FROM EMPLOYEES
+      WHERE salary < p_max_salary;
+   v_employee_name VARCHAR2(100);
+   v_salary NUMBER;
+BEGIN
+   OPEN emp_cursor;
+   LOOP
+      FETCH emp_cursor INTO v_employee_name, v_salary;
+      EXIT WHEN emp_cursor%NOTFOUND;
+      -- Display the information
+      DBMS_OUTPUT.PUT_LINE('Employee Name: ' || v_employee_name || ', Salary: ' || v_salary);
+   END LOOP;
+   CLOSE emp_cursor;
+END;
+/
