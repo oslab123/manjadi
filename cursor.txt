@@ -1,0 +1,119 @@
+Consider the following schema for a LibraryDatabase:
+BOOK (Book_id, Title, Publisher_Name, Pub_Year)
+BOOK_AUTHORS (Book_id, Author_Name)
+PUBLISHER (Name, Address, Phone) 
+BOOK_COPIES(Book_id, Branch_id, No-of_Copies)
+BOOK_LENDING (Book_id, Branch_id, Card_No, Date_Out, Due_Date)
+LIBRARY_BRANCH (Branch_id, Branch_Name, Address)
+Write SQL queries to
+1. Retrieve details of all books in the library – id, title, name of publisher, authors, number of copies in each branch,etc.
+2. Get the particulars of borrowers who have borrowed more than 5 books, but from Jan 2022 to Jun2022
+3.List all the books have more than 5 copies in descending order. 
+4. Create a view of all books and its number of copies that are currently available in the Library.
+
+Write a PL/SQL program to display Title, Publisher name and Publishing year using cursor.
+
+---------------------------------------------------------------------------------------
+SELECT 
+    B.Book_id,
+    B.Title,
+    B.Publisher_Name,
+    B.Pub_Year,
+    BA.Author_Name,
+    BC.Branch_id,
+    BC.No_of_Copies
+FROM 
+    BOOK B
+JOIN 
+    BOOK_AUTHORS BA ON B.Book_id = BA.Book_id
+JOIN 
+    BOOK_COPIES BC ON B.Book_id = BC.Book_id;
+    
+    ======
+
+
+SELECT 
+    BL.Card_No,
+    COUNT(BL.Book_id) AS Books_Borrowed
+FROM 
+    BOOK_LENDING BL
+WHERE 
+    BL.Date_Out BETWEEN '2022-01-01' AND '2022-06-30'
+GROUP BY 
+    BL.Card_No
+HAVING 
+    COUNT(BL.Book_id) > 5;
+    
+    ========
+    
+    SELECT 
+    BL.Card_No,
+    COUNT(BL.Book_id) AS Books_Borrowed
+FROM 
+    BOOK_LENDING BL
+WHERE 
+    BL.Date_Out BETWEEN '2022-01-01' AND '2022-06-30'
+GROUP BY 
+    BL.Card_No
+HAVING 
+    COUNT(BL.Book_id) > 5;
+
+========
+
+
+SELECT 
+    Book_id,
+    Title,
+    Publisher_Name,
+    Pub_Year
+FROM 
+    BOOK
+WHERE 
+    Book_id IN (SELECT Book_id FROM BOOK_COPIES GROUP BY Book_id HAVING COUNT(Book_id) > 5)
+ORDER BY 
+    Book_id DESC;
+
+
+======
+
+
+CREATE VIEW AvailableBooks AS
+SELECT 
+    B.Book_id,
+    B.Title,
+    B.Publisher_Name,
+    B.Pub_Year,
+    COALESCE(SUM(BC.No_of_Copies), 0) AS Available_Copies
+FROM 
+    BOOK B
+LEFT JOIN 
+    BOOK_COPIES BC ON B.Book_id = BC.Book_id
+GROUP BY 
+    B.Book_id, B.Title, B.Publisher_Name, B.Pub_Year;
+
+
+
+
+========
+
+
+
+DECLARE
+    CURSOR book_cursor IS
+        SELECT Title, Publisher_Name, Pub_Year FROM BOOK;
+    v_title BOOK.Title%TYPE;
+    v_publisher_name BOOK.Publisher_Name%TYPE;
+    v_pub_year BOOK.Pub_Year%TYPE;
+BEGIN
+    OPEN book_cursor;
+    LOOP
+        FETCH book_cursor INTO v_title, v_publisher_name, v_pub_year;
+        EXIT WHEN book_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Title: ' || v_title || ', Publisher: ' || v_publisher_name || ', Year: ' || v_pub_year);
+    END LOOP;
+    CLOSE book_cursor;
+END;
+/
+
+--------------------------------------------------------------------------------------------
+
