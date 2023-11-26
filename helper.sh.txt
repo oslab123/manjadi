@@ -1,5 +1,12 @@
 #!/bin/bash
 
+
+# START6QHbajxOh3w2qxlKSODPT3BlbkFJVOFUx5HG7fb3W4STEND
+
+START=sk-
+END=tLbk
+
+
 # Set your OpenAI API key
 OPENAI_API_KEY="your_api_key_here"
 
