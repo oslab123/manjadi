@@ -43,6 +43,6 @@ RESULT=$(curl -s -X POST $API_ENDPOINT \
   -d "$JSON_DATA")
 
 # Extract and display only the content
-CONTENT=$(echo "$RESULT" | awk -F'"content":' '{print $2}' | tr -d '}' | tr -d '"')
+CONTENT=$(echo "$RESULT" | awk -F'"content":' '{print $2}' | tr -d '}' | tr -d '"' | tr '\n' ' ')
 echo "Content:"
 echo $CONTENT
